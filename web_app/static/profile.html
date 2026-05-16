@@ -1,0 +1,41 @@
+<div class="profile-page">
+    <button class="back-btn" onclick="goBack()">← НАЗАД</button>
+    
+    <div class="profile-card">
+        <div class="profile-avatar">👤</div>
+        <div class="profile-name" id="profileName"></div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-card-label">💰 БАЛАНС</div>
+                <div class="stat-card-value" id="profileBalance">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-label">🏆 ПОБЕДЫ</div>
+                <div class="stat-card-value" id="wins">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-label">💀 ПОРАЖЕНИЯ</div>
+                <div class="stat-card-value" id="loses">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-label">📊 ВСЕГО ИГР</div>
+                <div class="stat-card-value" id="totalGames">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-label">💸 ПОСТАВЛЕНО</div>
+                <div class="stat-card-value" id="totalBet">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-label">🎉 ВЫИГРАНО</div>
+                <div class="stat-card-value" id="totalWin">0</div>
+            </div>
+        </div>
+        
+        <div class="free-case-section" style="margin-top: 20px;">
+            <div class="free-case-title">🎁 БЕСПЛАТНЫЙ КЕЙС</div>
+            <div class="free-case-date">Доступен: 7 мая</div>
+            <button class="claim-btn" onclick="alert('Кейс будет доступен 7 мая!')">ЗАБРАТЬ</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: drunk-rocket-app
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn web_app.app:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.2
+    healthCheckPath: /health
+    autoDeploy: false
+    plan: free
