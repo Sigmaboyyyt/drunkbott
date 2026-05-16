@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>🚀 РАКЕТА</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(135deg, #0a0f1a, #0a0a1a);
+            font-family: system-ui, sans-serif;
+            color: white;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container { max-width: 450px; margin: 0 auto; }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 12px 16px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 30px;
+        }
+        .back-btn {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+        .balance {
+            font-size: 20px;
+            font-weight: bold;
+            color: gold;
+        }
+        .bet-card, .game-card, .result-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 30px;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        .bet-input {
+            width: 100%;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid gold;
+            border-radius: 20px;
+            padding: 15px;
+            font-size: 24px;
+            color: gold;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .quick-bets {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .quick-bet {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 30px;
+            color: white;
+            cursor: pointer;
+        }
+        .start-btn, .cashout-btn {
+            width: 100%;
+            background: linear-gradient(135deg, gold, orange);
+            border: none;
+            padding: 15px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .multiplier {
+            font-size: 48px;
+            color: gold;
+            margin: 20px 0;
+        }
+        .stats-row {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .stat-item {
+            flex: 1;
+            background: rgba(0,0,0,0.4);
+            border-radius: 15px;
+            padding: 10px;
+        }
+        .stat-label { font-size: 10px; color: #aaa; }
+        .stat-value { font-size: 16px; color: gold; }
+        .risk-bar {
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+        .risk-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, green, yellow, red);
+            border-radius: 4px;
+        }
+        .hidden { display: none; }
+        .result-amount { font-size: 48px; color: gold; margin: 15px 0; }
+        .new-game-btn, .double-btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 30px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        .new-game-btn { background: #0ff; border: none; color: #0a0f1a; }
+        .double-btn { background: rgba(255,215,0,0.2); border: 1px solid gold; color: gold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="back-btn" onclick="location.href='/'">← НАЗАД</button>
+            <div class="balance">💰 <span id="balance">0</span></div>
+        </div>
+
+        <div id="betScreen">
+            <div class="bet-card">
+                <h2>🚀 РАКЕТА</h2>
+                <input type="number" id="betAmount" class="bet-input" value="100" min="10">
+                <div class="quick-bets">
+                    <button class="quick-bet" onclick="setBet(100)">100</button>
+                    <button class="quick-bet" onclick="setBet(500)">500</button>
+                    <button class="quick-bet" onclick="setBet(1000)">1K</button>
+                    <button class="quick-bet" onclick="setBet(5000)">5K</button>
+                </div>
+                <button class="start-btn" onclick="startGame()">🚀 СТАРТ</button>
+            </div>
+        </div>
+
+        <div id="gameScreen" class="hidden">
+            <div class="game-card">
+                <div class="multiplier" id="multiplier">x1.00</div>
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <div class="stat-label">⏱️ ПОЛЁТ</div>
+                        <div class="stat-value" id="flightTime">0с</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">💰 ВЫИГРЫШ</div>
+                        <div class="stat-value" id="currentWin">0</div>
+                    </div>
+                </div>
+                <div class="risk-bar"><div class="risk-fill" id="riskFill"></div></div>
+                <button class="cashout-btn" onclick="cashout()">💰 ЗАБРАТЬ</button>
+            </div>
+        </div>
+
+        <div id="resultScreen" class="hidden">
+            <div class="result-card">
+                <div class="result-amount" id="resultAmount">+0</div>
+                <div id="resultMultiplier">x1.00</div>
+                <div id="resultBet">Ставка: 0</div>
+                <div id="resultBalance">Баланс: 0</div>
+                <button class="new-game-btn" onclick="resetGame()">🔄 НОВАЯ ИГРА</button>
+                <button class="double-btn" id="doubleBtn" onclick="doubleBet()">⚡ УДВОИТЬ</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+        
+        let urlParams = new URLSearchParams(window.location.search);
+        let userId = urlParams.get('user_id');
+        
+        let gameActive = false;
+        let bet = 0;
+        let multiplier = 1.00;
+        let interval = null;
+        let balance = 0;
+        let startTime = 0;
+
+        async function updateBalance() {
+            try {
+                const res = await fetch('/get_balance', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: userId })
+                });
+                const data = await res.json();
+                balance = data.balance;
+                document.getElementById('balance').innerText = balance;
+            } catch(e) { document.getElementById('balance').innerText = '10000'; }
+        }
+
+        async function placeBet() {
+            const res = await fetch('/place_bet', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user_id: userId, bet: bet })
+            });
+            const data = await res.json();
+            if (!data.success) { tg.showAlert('❌ Ошибка!'); return false; }
+            balance = data.balance;
+            document.getElementById('balance').innerText = balance;
+            return true;
+        }
+
+        async function updateBalanceAfterGame(win) {
+            const res = await fetch('/update_balance', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user_id: userId, win: win, bet: bet })
+            });
+            const data = await res.json();
+            balance = data.balance;
+            return true;
+        }
+
+        function setBet(amount) { document.getElementById('betAmount').value = amount; }
+
+        async function startGame() {
+            bet = parseInt(document.getElementById('betAmount').value);
+            if (bet < 10) { tg.showAlert('❌ Минимум 10 DRUNK!'); return; }
+            if (bet > balance) { tg.showAlert('❌ Недостаточно средств!'); return; }
+            
+            const success = await placeBet();
+            if (!success) return;
+            
+            document.getElementById('betScreen').classList.add('hidden');
+            document.getElementById('gameScreen').classList.remove('hidden');
+            
+            gameActive = true;
+            multiplier = 1.00;
+            startTime = Date.now();
+            updateUI();
+            
+            interval = setInterval(() => {
+                if (!gameActive) return;
+                multiplier += (Math.random() * 0.1 + 0.03);
+                updateUI();
+                if (Math.random() * 100 < Math.min(85, multiplier * 8)) crash();
+            }, 300);
+        }
+
+        function updateUI() {
+            let flight = (Date.now() - startTime) / 1000;
+            let win = Math.floor(bet * multiplier);
+            let risk = Math.min(100, multiplier * 12);
+            
+            document.getElementById('multiplier').innerText = `x${multiplier.toFixed(2)}`;
+            document.getElementById('flightTime').innerText = flight.toFixed(1) + 'с';
+            document.getElementById('currentWin').innerText = win;
+            document.getElementById('riskFill').style.width = risk + '%';
+        }
+
+        async function crash() {
+            if (!gameActive) return;
+            gameActive = false;
+            clearInterval(interval);
+            
+            let flight = (Date.now() - startTime) / 1000;
+            await updateBalanceAfterGame(0);
+            
+            document.getElementById('resultAmount').innerHTML = `-${bet}`;
+            document.getElementById('resultAmount').style.color = '#ff4444';
+            document.getElementById('resultMultiplier').innerHTML = `x${multiplier.toFixed(2)}`;
+            document.getElementById('resultBet').innerHTML = `Ставка: ${bet}`;
+            document.getElementById('resultBalance').innerHTML = `Баланс: ${balance}`;
+            document.getElementById('doubleBtn').style.display = 'none';
+            
+            document.getElementById('gameScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('hidden');
+            
+            tg.showAlert(`💥 ВЗРЫВ! x${multiplier.toFixed(2)}\nПотеряно: ${bet}`);
+        }
+
+        async function cashout() {
+            if (!gameActive) return;
+            gameActive = false;
+            clearInterval(interval);
+            
+            let win = Math.floor(bet * multiplier);
+            let flight = (Date.now() - startTime) / 1000;
+            await updateBalanceAfterGame(win);
+            
+            document.getElementById('resultAmount').innerHTML = `+${win}`;
+            document.getElementById('resultAmount').style.color = 'gold';
+            document.getElementById('resultMultiplier').innerHTML = `x${multiplier.toFixed(2)}`;
+            document.getElementById('resultBet').innerHTML = `Ставка: ${bet}`;
+            document.getElementById('resultBalance').innerHTML = `Баланс: ${balance}`;
+            document.getElementById('doubleBtn').style.display = 'block';
+            
+            document.getElementById('gameScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('hidden');
+            
+            tg.showAlert(`🎉 ВЫИГРЫШ! +${win}\nМножитель: x${multiplier.toFixed(2)}`);
+        }
+
+        function resetGame() {
+            clearInterval(interval);
+            document.getElementById('resultScreen').classList.add('hidden');
+            document.getElementById('betScreen').classList.remove('hidden');
+            updateBalance();
+        }
+
+        async function doubleBet() {
+            let newBet = bet * 2;
+            await updateBalance();
+            if (newBet > balance) {
+                tg.showAlert('❌ Недостаточно средств!');
+                return;
+            }
+            bet = newBet;
+            document.getElementById('betAmount').value = bet;
+            resetGame();
+            startGame();
+        }
+
+        updateBalance();
+        
+        tg.MainButton.text = "ЗАКРЫТЬ";
+        tg.MainButton.onClick(() => tg.close());
+        tg.MainButton.show();
+    </script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>DRUNK GAMES</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Шапка с балансом -->
+        <div class="header">
+            <div class="balance-card">
+                <span>💰 БАЛАНС</span>
+                <span id="balance">0</span>
+            </div>
+            <div class="user-name" id="userName"></div>
+        </div>
+
+        <!-- Сетка игр -->
+        <div class="games-grid">
+            <div class="game-icon-card" onclick="loadGame('slots')">
+                <div class="game-icon">🎰</div>
+                <div class="game-label">СЛОТЫ</div>
+            </div>
+            <div class="game-icon-card" onclick="loadGame('roulette')">
+                <div class="game-icon">🎡</div>
+                <div class="game-label">РУЛЕТКА</div>
+            </div>
+            <div class="game-icon-card" onclick="loadGame('rocket')">
+                <div class="game-icon">🚀</div>
+                <div class="game-label">РАКЕТА</div>
+            </div>
+            <div class="game-icon-card" onclick="loadGame('dice')">
+                <div class="game-icon">🎲</div>
+                <div class="game-label">КОСТИ</div>
+            </div>
+            <div class="game-icon-card" onclick="loadGame('basketball')">
+                <div class="game-icon">🏀</div>
+                <div class="game-label">БАСКЕТБОЛ</div>
+            </div>
+            <div class="game-icon-card" onclick="loadGame('mines')">
+                <div class="game-icon">💣</div>
+                <div class="game-label">МИНЫ</div>
+            </div>
+            <div class="game-icon-card" onclick="loadGame('pyramid')">
+                <div class="game-icon">🏛️</div>
+                <div class="game-label">ПИРАМИДА</div>
+            </div>
+            <div class="game-icon-card" onclick="loadGame('profile')">
+                <div class="game-icon">👤</div>
+                <div class="game-label">ПРОФИЛЬ</div>
+            </div>
+        </div>
+
+        <!-- Новости -->
+        <div class="news-section">
+            <div class="news-header">
+                <span>📢 ОБНОВЛЕНИЯ</span>
+                <span class="news-date">7 мая</span>
+            </div>
+            <div class="news-item">
+                🎁 <b>Бесплатный кейс</b> — забрать в профиле
+            </div>
+            <div class="news-item">
+                🚀 <b>Новая игра РАКЕТА</b> — множитель до x20!
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
