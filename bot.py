@@ -235,8 +235,7 @@ async def pyramid_btn(message: Message):
 @dp.message(lambda m: m.text and m.text == "🚀 РАКЕТА" and is_private_chat(m))
 async def rocket_webapp_btn(message: Message):
     uid = message.from_user.id
-    # ВСТАВЬ СВОЮ ССЫЛКУ ИЗ NGROK
-    webapp_url = f"https://tackiness-jacket-guacamole.ngrok-free.dev/rocket?user_id={uid}"
+    webapp_url = f"https://drunk-webapp.onrender.com/rocket?user_id={uid}"
     
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text="🚀 ЗАПУСТИТЬ РАКЕТУ", web_app=WebAppInfo(url=webapp_url))]
